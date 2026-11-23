@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --breakpoint-xs: 30rem;
+}
+
+html {
+  background-color: var(--color-slate-50);
+}
+html.dark {
+  background-color: #060a17;
+}
+body {
+  min-height: 100vh;
+  background-color: var(--color-slate-50);
+  color: var(--color-slate-900);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+html.dark body {
+  background-color: #060a17;
+  color: var(--color-slate-100);
+}

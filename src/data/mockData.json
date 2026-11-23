@@ -1,0 +1,86 @@
+[
+  {
+    "id": "group-japan-2024",
+    "name": "Trip to Japan",
+    "description": "Two weeks in Tokyo, Kyoto, and Osaka. Cherry blossom season 2024.",
+    "members": [
+      { "id": "m-alex", "name": "Alex Chen" },
+      { "id": "m-jordan", "name": "Jordan Park" },
+      { "id": "m-sam", "name": "Sam Rivera" },
+      { "id": "m-taylor", "name": "Taylor Kim" }
+    ],
+    "expenses": [
+      {
+        "id": "exp-1",
+        "description": "Convenience store runs (accumulated)",
+        "amount": 8340,
+        "paidBy": "m-sam",
+        "date": "2026-03-27T10:00:00.000Z",
+        "category": "shopping",
+        "splitType": "equal",
+        "splits": [
+          { "memberId": "m-alex", "owedAmount": 2085 },
+          { "memberId": "m-jordan", "owedAmount": 2085 },
+          { "memberId": "m-sam", "owedAmount": 2085 },
+          { "memberId": "m-taylor", "owedAmount": 2085 }
+        ]
+      },
+      {
+        "id": "exp-2",
+        "description": "Izakaya dinner in Dotonbori",
+        "amount": 42600,
+        "paidBy": "m-alex",
+        "date": "2026-03-25T19:30:00.000Z",
+        "category": "food",
+        "splitType": "shares",
+        "splits": [
+          { "memberId": "m-alex", "shareUnits": 2, "owedAmount": 17040 },
+          { "memberId": "m-jordan", "shareUnits": 1, "owedAmount": 8520 },
+          { "memberId": "m-sam", "shareUnits": 1, "owedAmount": 8520 },
+          { "memberId": "m-taylor", "shareUnits": 1, "owedAmount": 8520 }
+        ]
+      },
+      {
+        "id": "exp-3",
+        "description": "Don Quijote shopping haul",
+        "amount": 18750,
+        "paidBy": "m-sam",
+        "date": "2026-03-24T16:15:00.000Z",
+        "category": "shopping",
+        "splitType": "exact",
+        "splits": [
+          { "memberId": "m-alex", "owedAmount": 6250 },
+          { "memberId": "m-jordan", "owedAmount": 5500 },
+          { "memberId": "m-sam", "owedAmount": 7000 }
+        ]
+      }
+    ],
+    "settlements": [
+      {
+        "id": "set-1",
+        "payerId": "m-sam",
+        "receiverId": "m-taylor",
+        "amount": 8500,
+        "date": "2026-03-26T14:30:00.000Z"
+      },
+      {
+        "id": "set-2",
+        "payerId": "m-jordan",
+        "receiverId": "m-alex",
+        "amount": 150,
+        "date": "2026-03-24T12:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "id": "group-apt-4b",
+    "name": "Apartment 4B",
+    "description": "Shared monthly bills, maintenance, and supplies.",
+    "members": [
+      { "id": "m-alex", "name": "Alex Chen" },
+      { "id": "m-taylor", "name": "Taylor Kim" }
+    ],
+    "expenses": [],
+    "settlements": []
+  }
+]
