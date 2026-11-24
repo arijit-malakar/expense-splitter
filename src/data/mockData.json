@@ -12,46 +12,47 @@
     "expenses": [
       {
         "id": "exp-1",
-        "description": "Convenience store runs (accumulated)",
-        "amount": 8340,
-        "paidBy": "m-sam",
+        "description": "Shinkansen bullet train to Kyoto",
+        "amount": 218.60,
+        "paidBy": "m-alex",
         "date": "2026-03-27T10:00:00.000Z",
-        "category": "shopping",
+        "category": "transport",
         "splitType": "equal",
         "splits": [
-          { "memberId": "m-alex", "owedAmount": 2085 },
-          { "memberId": "m-jordan", "owedAmount": 2085 },
-          { "memberId": "m-sam", "owedAmount": 2085 },
-          { "memberId": "m-taylor", "owedAmount": 2085 }
+          { "memberId": "m-alex", "owedAmount": 54.65 },
+          { "memberId": "m-jordan", "owedAmount": 54.65 },
+          { "memberId": "m-sam", "owedAmount": 54.65 },
+          { "memberId": "m-taylor", "owedAmount": 54.65 }
         ]
       },
       {
         "id": "exp-2",
         "description": "Izakaya dinner in Dotonbori",
-        "amount": 42600,
-        "paidBy": "m-alex",
+        "amount": 182.50,
+        "paidBy": "m-jordan",
         "date": "2026-03-25T19:30:00.000Z",
         "category": "food",
         "splitType": "shares",
         "splits": [
-          { "memberId": "m-alex", "shareUnits": 2, "owedAmount": 17040 },
-          { "memberId": "m-jordan", "shareUnits": 1, "owedAmount": 8520 },
-          { "memberId": "m-sam", "shareUnits": 1, "owedAmount": 8520 },
-          { "memberId": "m-taylor", "shareUnits": 1, "owedAmount": 8520 }
+          { "memberId": "m-alex", "shareUnits": 1, "owedAmount": 36.50 },
+          { "memberId": "m-jordan", "shareUnits": 2, "owedAmount": 73.00 },
+          { "memberId": "m-sam", "shareUnits": 1, "owedAmount": 36.50 },
+          { "memberId": "m-taylor", "shareUnits": 1, "owedAmount": 36.50 }
         ]
       },
       {
         "id": "exp-3",
-        "description": "Don Quijote shopping haul",
-        "amount": 18750,
-        "paidBy": "m-sam",
+        "description": "TeamLab Planets museum entry",
+        "amount": 167.50,
+        "paidBy": "m-taylor",
         "date": "2026-03-24T16:15:00.000Z",
-        "category": "shopping",
+        "category": "entertainment",
         "splitType": "exact",
         "splits": [
-          { "memberId": "m-alex", "owedAmount": 6250 },
-          { "memberId": "m-jordan", "owedAmount": 5500 },
-          { "memberId": "m-sam", "owedAmount": 7000 }
+          { "memberId": "m-alex", "owedAmount": 42.25 },
+          { "memberId": "m-jordan", "owedAmount": 22.45 },
+          { "memberId": "m-sam", "owedAmount": 64.20 },
+          { "memberId": "m-taylor", "owedAmount": 38.60 }
         ]
       }
     ],
@@ -60,15 +61,8 @@
         "id": "set-1",
         "payerId": "m-sam",
         "receiverId": "m-taylor",
-        "amount": 8500,
+        "amount": 25.50,
         "date": "2026-03-26T14:30:00.000Z"
-      },
-      {
-        "id": "set-2",
-        "payerId": "m-jordan",
-        "receiverId": "m-alex",
-        "amount": 150,
-        "date": "2026-03-24T12:00:00.000Z"
       }
     ]
   },

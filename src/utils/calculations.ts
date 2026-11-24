@@ -1,4 +1,4 @@
-import type { Group, NetBalances } from "../types";
+import type { DebtTransaction, Group, NetBalances } from "../types";
 
 const toCents = (amount: number) => Math.round(amount * 100);
 const fromCents = (cents: number) => cents / 100;
@@ -84,4 +84,73 @@ export const getUserBalanceSummary = (
     totalPaid: fromCents(paidCents),
     totalShare: fromCents(shareCents),
   };
+};
+
+export const simplifyDebts = (group: Group): DebtTransaction[] => {
+  if (!group.members.length || !group.expenses.length) return [];
+
+  const netBalances = getGroupNetBalances(group);
+
+  // Initialize debtors and creditors
+  interface DebtNode {
+    memberId: string;
+    name: string;
+    cents: number;
+  }
+
+  const debtors: DebtNode[] = [];
+  const creditors: DebtNode[] = [];
+
+  for (const member of group.members) {
+    const balance = netBalances[member.id] ?? 0;
+    const cents = toCents(balance);
+
+    if (cents < 0) {
+      debtors.push({
+        memberId: member.id,
+        name: member.name,
+        cents: Math.abs(cents),
+      });
+    } else if (cents > 0) {
+      creditors.push({
+        memberId: member.id,
+        name: member.name,
+        cents,
+      });
+    }
+  }
+
+  // Sort them in descending order of balance
+  debtors.sort((a, b) => b.cents - a.cents);
+  creditors.sort((a, b) => b.cents - a.cents);
+
+  // Generate suggested settlements
+  const transactions: DebtTransaction[] = [];
+  let i = 0;
+  let j = 0;
+
+  while (i < debtors.length && j < creditors.length) {
+    const debtor = debtors[i];
+    const creditor = creditors[j];
+
+    const settleCents = Math.min(debtor.cents, creditor.cents);
+
+    if (settleCents > 0) {
+      transactions.push({
+        payerId: debtor.memberId,
+        payerName: debtor.name,
+        receiverId: creditor.memberId,
+        receiverName: creditor.name,
+        amount: fromCents(settleCents),
+      });
+    }
+
+    debtor.cents -= settleCents;
+    creditor.cents -= settleCents;
+
+    if (debtor.cents === 0) i++;
+    if (creditor.cents === 0) j++;
+  }
+
+  return transactions;
 };
