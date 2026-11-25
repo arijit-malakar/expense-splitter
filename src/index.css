@@ -12,6 +12,9 @@ html {
 html.dark {
   background-color: #060a17;
 }
+html:has(dialog[open]) {
+  overflow: hidden;
+}
 body {
   min-height: 100vh;
   background-color: var(--color-slate-50);

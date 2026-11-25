@@ -1,12 +1,29 @@
 import type { StateCreator } from "zustand";
 import type { Expense, Group, Member, Settlement } from "../types";
 
-export type ModalType =
-  | "add-expense"
-  | "settle-up"
-  | "new-group"
-  | "settings"
-  | null;
+export type ModalState =
+  | { type: "add-expense"; expenseId?: string }
+  | {
+      type: "settle-up";
+      settlementId?: string;
+      prefill?: {
+        payerId: string;
+        receiverId: string;
+        amount: number;
+      };
+    }
+  | { type: "new-group" }
+  | { type: "settings" }
+  | { type: "group-switcher" };
+
+export interface ConfirmDialogState {
+  title: string;
+  message: string;
+  confirmLabel?: string;
+  cancelLabel?: string;
+  variant?: "danger" | "primary";
+  onConfirm: () => void;
+}
 
 export interface GroupSlice {
   groups: Group[];
@@ -23,19 +40,35 @@ export interface GroupSlice {
 }
 
 export interface TransactionSlice {
-  addExpense: (groupId: string, expense: Omit<Expense, "id" | "date">) => void;
+  addExpense: (
+    groupId: string,
+    expense: Omit<Expense, "id" | "date"> & { date?: string },
+  ) => void;
+  updateExpense: (
+    groupId: string,
+    expenseId: string,
+    updates: Omit<Expense, "id">,
+  ) => void;
   deleteExpense: (groupId: string, expenseId: string) => void;
   addSettlement: (
     groupId: string,
-    settlement: Omit<Settlement, "id" | "date">,
+    settlement: Omit<Settlement, "id" | "date"> & { date?: string },
+  ) => void;
+  updateSettlement: (
+    groupId: string,
+    settlementId: string,
+    updates: Omit<Settlement, "id">,
   ) => void;
   deleteSettlement: (groupId: string, settlementId: string) => void;
 }
 
 export interface UISlice {
-  activeModal: ModalType;
-  openModal: (modal: ModalType) => void;
+  activeModal: ModalState | null;
+  confirmDialog: ConfirmDialogState | null;
+  openModal: (modal: ModalState) => void;
   closeModal: () => void;
+  openConfirm: (dialog: ConfirmDialogState) => void;
+  closeConfirm: () => void;
 }
 
 export type RootStore = GroupSlice & TransactionSlice & UISlice;

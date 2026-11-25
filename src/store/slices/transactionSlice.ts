@@ -6,12 +6,27 @@ export const createTransactionSlice: AppSlice<TransactionSlice> = (set) => ({
     const newExpense: Expense = {
       ...expenseData,
       id: `exp-${Date.now()}`,
-      date: new Date().toISOString(),
+      date: expenseData.date ?? new Date().toISOString(),
     };
 
     set((state) => ({
       groups: state.groups.map((g) =>
         g.id === groupId ? { ...g, expenses: [newExpense, ...g.expenses] } : g,
+      ),
+    }));
+  },
+
+  updateExpense: (groupId, expenseId, updates) => {
+    set((state) => ({
+      groups: state.groups.map((g) =>
+        g.id === groupId
+          ? {
+              ...g,
+              expenses: g.expenses.map((e) =>
+                e.id === expenseId ? { ...e, ...updates } : e,
+              ),
+            }
+          : g,
       ),
     }));
   },
@@ -30,13 +45,28 @@ export const createTransactionSlice: AppSlice<TransactionSlice> = (set) => ({
     const newSettlement: Settlement = {
       ...settlementData,
       id: `set-${Date.now()}`,
-      date: new Date().toISOString(),
+      date: settlementData.date ?? new Date().toISOString(),
     };
 
     set((state) => ({
       groups: state.groups.map((g) =>
         g.id === groupId
           ? { ...g, settlements: [newSettlement, ...g.settlements] }
+          : g,
+      ),
+    }));
+  },
+
+  updateSettlement: (groupId, settlementId, updates) => {
+    set((state) => ({
+      groups: state.groups.map((g) =>
+        g.id === groupId
+          ? {
+              ...g,
+              settlements: g.settlements.map((s) =>
+                s.id === settlementId ? { ...s, ...updates } : s,
+              ),
+            }
           : g,
       ),
     }));
