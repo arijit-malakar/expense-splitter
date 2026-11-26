@@ -1,9 +1,10 @@
 import { useState } from "react";
 import type { Settlement } from "../../types";
-import { formatCurrency, formatDate } from "../../utils/formatters";
-import { cx } from "../../utils/helpers";
+import { useLedgerStore } from "../../store/useLedgerStore";
 import { Button } from "../../ui/Button";
 import { Badge } from "../../ui/Badge";
+import { formatCurrency, formatDate } from "../../utils/formatters";
+import { cx } from "../../utils/helpers";
 
 interface SettlementRowProps {
   settlement: Settlement;
@@ -11,8 +12,14 @@ interface SettlementRowProps {
   membersMap: Record<string, string>;
 }
 
-export function SettlementRow({ settlement, membersMap }: SettlementRowProps) {
+export function SettlementRow({
+  settlement,
+  groupId,
+  membersMap,
+}: SettlementRowProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const openConfirm = useLedgerStore((state) => state.openConfirm);
+  const deleteSettlement = useLedgerStore((state) => state.deleteSettlement);
 
   const payerName = membersMap[settlement.payerId];
   const receiverName = membersMap[settlement.receiverId];
@@ -99,7 +106,19 @@ export function SettlementRow({ settlement, membersMap }: SettlementRowProps) {
             <Button variant="secondary" size="xs">
               Edit
             </Button>
-            <Button variant="danger-subtle" size="xs">
+            <Button
+              variant="danger-subtle"
+              size="xs"
+              onClick={() =>
+                openConfirm({
+                  title: "Delete settlement",
+                  message: `Are you sure you want to delete the payment of ${formatCurrency(settlement.amount)} from ${payerName} to ${receiverName}?`,
+                  confirmLabel: "Delete",
+                  variant: "danger",
+                  onConfirm: () => deleteSettlement(groupId, settlement.id),
+                })
+              }
+            >
               Delete
             </Button>
           </div>

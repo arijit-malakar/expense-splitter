@@ -1,5 +1,6 @@
 import type { StateCreator } from "zustand";
 import type { Expense, Group, Member, Settlement } from "../types";
+import type { ConfirmDialogProps } from "../ui/ConfirmDialog";
 
 export type ModalState =
   | { type: "add-expense"; expenseId?: string }
@@ -16,14 +17,7 @@ export type ModalState =
   | { type: "settings" }
   | { type: "group-switcher" };
 
-export interface ConfirmDialogState {
-  title: string;
-  message: string;
-  confirmLabel?: string;
-  cancelLabel?: string;
-  variant?: "danger" | "primary";
-  onConfirm: () => void;
-}
+export type ConfirmDialogState = Omit<ConfirmDialogProps, "isOpen" | "onClose">;
 
 export interface GroupSlice {
   groups: Group[];

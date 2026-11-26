@@ -1,11 +1,12 @@
 import { useState } from "react";
 import type { Expense, ExpenseCategory } from "../../types";
+import { useLedgerStore } from "../../store/useLedgerStore";
 import { Avatar } from "../../ui/Avatar";
 import { CountPill } from "../../ui/CountPill";
 import { Button } from "../../ui/Button";
+import { Badge } from "../../ui/Badge";
 import { formatCurrency, formatDate } from "../../utils/formatters";
 import { cx } from "../../utils/helpers";
-import { Badge } from "../../ui/Badge";
 
 const CATEGORY_EMOJIS: Record<ExpenseCategory, string> = {
   food: "🍽️",
@@ -23,8 +24,10 @@ interface ExpenseRowProps {
   membersMap: Record<string, string>;
 }
 
-export function ExpenseRow({ expense, membersMap }: ExpenseRowProps) {
+export function ExpenseRow({ expense, groupId, membersMap }: ExpenseRowProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const openConfirm = useLedgerStore((state) => state.openConfirm);
+  const deleteExpense = useLedgerStore((state) => state.deleteExpense);
 
   const payerName = membersMap[expense.paidBy];
   const detailsId = `exp-${expense.id}-details`;
@@ -146,7 +149,19 @@ export function ExpenseRow({ expense, membersMap }: ExpenseRowProps) {
             <Button variant="secondary" size="xs">
               Edit
             </Button>
-            <Button variant="danger-subtle" size="xs">
+            <Button
+              variant="danger-subtle"
+              size="xs"
+              onClick={() =>
+                openConfirm({
+                  title: "Delete expense",
+                  message: `Are you sure you want to delete "${expense.description}" (${formatCurrency(expense.amount)})? Member balances will recalculate immediately.`,
+                  confirmLabel: "Delete",
+                  variant: "danger",
+                  onConfirm: () => deleteExpense(groupId, expense.id),
+                })
+              }
+            >
               Delete
             </Button>
           </div>
