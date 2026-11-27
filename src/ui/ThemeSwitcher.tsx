@@ -1,54 +1,15 @@
-import { useEffect, useState } from "react";
-
 export type Theme = "light" | "dark" | "system";
 
-const setDarkClass = (isDark: boolean) => {
-  const css = document.createElement("style");
-  css.appendChild(
-    document.createTextNode(`
-        *, *::before, *::after {
-            transition: none !important;
-        }
-    `),
-  );
-  document.head.appendChild(css);
+interface ThemeSwitcherProps {
+  theme: Theme;
+  onChange: (theme: Theme) => void;
+}
 
-  document.documentElement.classList.toggle("dark", isDark);
-
-  void window.getComputedStyle(document.body).opacity;
-
-  requestAnimationFrame(() => {
-    document.head.removeChild(css);
-  });
-};
-
-export function ThemeSwitcher() {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem("theme") as Theme) || "system",
-  );
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-
-    const resolveTheme = (t: Theme) => {
-      const isDark = t === "dark" || (t === "system" && mediaQuery.matches);
-      setDarkClass(isDark);
-    };
-    resolveTheme(theme);
-    localStorage.setItem("theme", theme);
-
-    if (theme !== "system") return;
-
-    const handleSystemChange = () => resolveTheme("system");
-    mediaQuery.addEventListener("change", handleSystemChange);
-
-    return () => mediaQuery.removeEventListener("change", handleSystemChange);
-  }, [theme]);
-
+export function ThemeSwitcher({ theme, onChange }: ThemeSwitcherProps) {
   return (
     <div
       role="radiogroup"
-      className="grid grid-cols-3 p-1 rounded-full bg-slate-200/50 dark:bg-slate-900/60 border-slate-200 dark:border-slate-800/80"
+      className="grid grid-cols-3 p-1 rounded-full bg-slate-200/50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80"
       aria-label="Theme selector"
     >
       <button
@@ -56,7 +17,7 @@ export function ThemeSwitcher() {
         role="radio"
         aria-label="System theme"
         aria-checked={theme === "system"}
-        onClick={() => setTheme("system")}
+        onClick={() => onChange("system")}
         className={`rounded-full p-1.5 transition-colors ${theme === "system" ? "text-slate-900 bg-white dark:text-slate-100 dark:bg-blue-500/20" : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"}`}
       >
         <svg
@@ -87,7 +48,7 @@ export function ThemeSwitcher() {
         role="radio"
         aria-label="Light theme"
         aria-checked={theme === "light"}
-        onClick={() => setTheme("light")}
+        onClick={() => onChange("light")}
         className={`rounded-full p-1.5 transition-colors ${theme === "light" ? "text-slate-900 bg-white" : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"}`}
       >
         <svg
@@ -117,7 +78,7 @@ export function ThemeSwitcher() {
         role="radio"
         aria-label="Dark theme"
         aria-checked={theme === "dark"}
-        onClick={() => setTheme("dark")}
+        onClick={() => onChange("dark")}
         className={`rounded-full p-1.5 transition-colors ${theme === "dark" ? "dark:text-slate-100 dark:bg-blue-500/20" : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200"}`}
       >
         <svg

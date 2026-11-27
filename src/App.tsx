@@ -6,6 +6,7 @@ import { MobileTopBar } from "./features/groups/MobileTopBar";
 import { ActivityFeed } from "./features/activity/ActivityFeed";
 import { BalancesPanel } from "./features/balances/BalancesPanel";
 import { ConfirmDialog } from "./ui/ConfirmDialog";
+import { MobileGroupSwitcher } from "./features/groups/MobileGroupSwitcher";
 
 export default function App() {
   const hasGroups = useLedgerStore((state) => state.groups.length > 0);
@@ -25,6 +26,8 @@ export default function App() {
           <BalancesPanel />
         </div>
       </AppShell>
+
+      <MobileGroupSwitcher />
 
       <ConfirmDialog
         isOpen={confirmDialog !== null}

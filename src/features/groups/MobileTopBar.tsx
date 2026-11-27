@@ -1,13 +1,23 @@
 import { useLedgerStore } from "../../store/useLedgerStore";
+import { useActiveGroup, useModalActions } from "../../store/selectors";
 import { Button } from "../../ui/Button";
 import { Logo } from "../../ui/Logo";
+import { getMemberNetBalance } from "../../utils/calculations";
+import { getBalanceBadgeClass } from "../../utils/balanceStyles";
+import { formatSignedBalance } from "../../utils/formatters";
+import { cx } from "../../utils/helpers";
 
 export function MobileTopBar() {
-  const groups = useLedgerStore((state) => state.groups);
-  const activeGroupId = useLedgerStore((state) => state.activeGroupId);
+  const activeGroup = useActiveGroup();
+  const currentUserId = useLedgerStore((state) => state.currentUserId);
+  const { openModal } = useModalActions();
+  const isSwitcherOpen = useLedgerStore(
+    (state) => state.activeModal?.type === "group-switcher",
+  );
 
-  const activeGroup =
-    groups.find((group) => group.id === activeGroupId) || groups[0];
+  if (!activeGroup) return null;
+
+  const userBalance = getMemberNetBalance(activeGroup, currentUserId);
 
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between md:hidden h-14 w-full px-3 backdrop-blur-md border-b border-slate-200 bg-white/90 dark:border-slate-800/80 dark:bg-[#070c1e]/90">
@@ -16,13 +26,20 @@ export function MobileTopBar() {
       <button
         type="button"
         aria-haspopup="dialog"
+        aria-expanded={isSwitcherOpen}
+        onClick={() => openModal({ type: "group-switcher" })}
         className="flex items-center gap-2 rounded-full py-1.5 pl-3.5 pr-2.5 text-sm font-medium shadow-sm transition border border-slate-200 bg-slate-100/80 hover:bg-slate-200/60 dark:border-slate-800 dark:bg-slate-900/80 dark:hover:bg-slate-800 active:scale-98"
       >
         <span className="min-w-0 max-w-31.5 truncate text-slate-800 dark:text-slate-200">
           {activeGroup.name}
         </span>
-        <span className="rounded-full px-2 py-1 font-mono text-[11px] font-semibold bg-emerald-200/40 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-          +$216.47
+        <span
+          className={cx(
+            "rounded-full px-2 py-1 font-mono text-[11px] font-semibold",
+            getBalanceBadgeClass(userBalance),
+          )}
+        >
+          {formatSignedBalance(userBalance)}
         </span>
         <svg
           className="size-4 shrink-0 text-slate-400"

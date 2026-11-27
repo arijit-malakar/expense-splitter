@@ -1,14 +1,13 @@
-import { useLedgerStore } from "../../store/useLedgerStore";
+import { useGroupNav, useThemeState } from "../../store/selectors";
 import { Logo } from "../../ui/Logo";
 import { ThemeSwitcher } from "../../ui/ThemeSwitcher";
 import { getMemberNetBalance } from "../../utils/calculations";
 import { GroupListItem } from "./GroupListItem";
 
 export function SidebarNav() {
-  const groups = useLedgerStore((state) => state.groups);
-  const activeGroupId = useLedgerStore((state) => state.activeGroupId);
-  const currentUserId = useLedgerStore((state) => state.currentUserId);
-  const setActiveGroupId = useLedgerStore((state) => state.setActiveGroupId);
+  const { groups, activeGroupId, setActiveGroupId, currentUserId } =
+    useGroupNav();
+  const { theme, setTheme } = useThemeState();
 
   return (
     <aside
@@ -72,7 +71,7 @@ export function SidebarNav() {
           <span className="text-xs text-slate-600 dark:text-slate-400">
             Theme
           </span>
-          <ThemeSwitcher />
+          <ThemeSwitcher theme={theme} onChange={setTheme} />
         </div>
       </footer>
     </aside>

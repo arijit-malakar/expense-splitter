@@ -21,7 +21,7 @@ export function GroupListItem({
       <button
         type="button"
         onClick={() => onSelect(id)}
-        className={`relative w-full py-2.5 px-3 flex justify-between items-center rounded-lg text-sm transition-colors ${isActive ? "bg-white text-slate-900 font-medium shadow-xs hover:bg-slate-50 dark:shadow-none dark:text-slate-100 dark:bg-blue-500/20 dark:hover:bg-blue-500/25" : "text-slate-600 hover:bg-white/60 dark:text-slate-400 dark:hover:bg-blue-500/10"}`}
+        className={`relative w-full py-2.5 px-3 flex justify-between items-center rounded-lg text-sm transition-colors ${isActive ? "bg-white text-slate-900 font-medium shadow-xs dark:shadow-none dark:text-slate-100 dark:bg-blue-500/20" : "text-slate-600 hover:bg-slate-200/50 dark:text-slate-400 dark:hover:bg-blue-500/10"}`}
         aria-current={isActive ? "page" : undefined}
       >
         {isActive && (

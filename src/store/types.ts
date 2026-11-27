@@ -1,6 +1,7 @@
 import type { StateCreator } from "zustand";
 import type { Expense, Group, Member, Settlement } from "../types";
 import type { ConfirmDialogProps } from "../ui/ConfirmDialog";
+import type { Theme } from "../ui/ThemeSwitcher";
 
 export type ModalState =
   | { type: "add-expense"; expenseId?: string }
@@ -59,10 +60,12 @@ export interface TransactionSlice {
 export interface UISlice {
   activeModal: ModalState | null;
   confirmDialog: ConfirmDialogState | null;
+  theme: Theme;
   openModal: (modal: ModalState) => void;
   closeModal: () => void;
   openConfirm: (dialog: ConfirmDialogState) => void;
   closeConfirm: () => void;
+  setTheme: (theme: Theme) => void;
 }
 
 export type RootStore = GroupSlice & TransactionSlice & UISlice;

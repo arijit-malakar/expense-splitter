@@ -84,7 +84,9 @@ export function Dialog({
               className="mx-auto mb-3 h-1 w-10 rounded-full bg-slate-300 dark:bg-slate-700 md:hidden"
               aria-hidden="true"
             />
-            <div className="flex items-center justify-between gap-3">
+            <div
+              className={`flex ${description ? "items-start" : "items-center"} justify-between gap-3`}
+            >
               <div className="min-w-0 space-y-0.5">
                 <h2 id={titleId} className="text-base font-semibold">
                   {title}

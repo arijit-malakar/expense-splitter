@@ -24,3 +24,29 @@ export const useActiveGroupMeta = () =>
       };
     }),
   );
+
+export const useGroupNav = () =>
+  useLedgerStore(
+    useShallow((state) => ({
+      groups: state.groups,
+      activeGroupId: state.activeGroupId,
+      currentUserId: state.currentUserId,
+      setActiveGroupId: state.setActiveGroupId,
+    })),
+  );
+
+export const useThemeState = () =>
+  useLedgerStore(
+    useShallow((state) => ({
+      theme: state.theme,
+      setTheme: state.setTheme,
+    })),
+  );
+
+export const useModalActions = () =>
+  useLedgerStore(
+    useShallow((state) => ({
+      openModal: state.openModal,
+      closeModal: state.closeModal,
+    })),
+  );
